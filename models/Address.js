@@ -4,9 +4,8 @@ const { Schema } = mongoose;
 const addressSchema = new Schema({
     province: String,
     city: String,
-    barangay: String,
-    zipcode: String,
-    street: String
+    barangay: String,   
+    exact: String
 })
 
 
@@ -18,4 +17,4 @@ addressSchema.set('toJSON', {
     }
 })
 
-exports.module = mongoose.model('Address', addressSchema);
+module.exports = mongoose.model('Address', addressSchema);
