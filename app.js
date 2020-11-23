@@ -10,8 +10,8 @@ mongoose.connect(config.URI, { useNewUrlParser: true, useUnifiedTopology: true, 
 // app.use(cors())
 app.use(express.json())
 
-
 app.use('/users', userRouter);
+app.use(middleware.errorHandler)
 
 
 module.exports = app;

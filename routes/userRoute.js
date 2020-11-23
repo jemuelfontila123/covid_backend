@@ -4,9 +4,10 @@ const userController = require('../controllers/userController')
 
 router.route('/')
     .get(userController.getUsers)
-
+    .post(userController.userLogin)
 
 router.post('/register', userController.userRegister)
+
 
 
 module.exports = router;

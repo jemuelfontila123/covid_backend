@@ -5,11 +5,11 @@ Content-Type: application/json
     "firstName":"Jemuel",
     "middleName":"Yu",
     "lastName": "Fontila",
-    "password": "123456789",
+    "password": "12345678910",
     "passwordConfirmation": "12345678",
     "province": "Laguna",
     "city": "Sta Rosa",
     "barangay": "Market Area",
-    "contactNumber":"0919602257",
-    "email": "jemuelfontila123@gmai"
+    "contactNumber":"0949602251",
+    "email": "jemuelfontila123@gmail.com"
 }

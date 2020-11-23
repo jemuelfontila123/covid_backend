@@ -13,7 +13,19 @@ const validate = validations => {
     };
   };
 
-
+const errorHandler = (error, request, response, next) => {
+  console.log(error.message)
+  console.log(error.name)
+  if(error.message == 'invalid email or password') {
+    response.status(400).json({error: error.message})
+  }
+  if(error.errors) {
+    const errors = error.errors;
+    response.status(400).json({error: errors.map(error => error)})
+  }
+  next();
+}
 module.exports = {
-    validate
+    validate,
+    errorHandler
 }
