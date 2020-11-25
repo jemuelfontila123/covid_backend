@@ -6,10 +6,10 @@ Content-Type: application/json
     "middleName":"Yu",
     "lastName": "Fontila",
     "password": "12345678910",
-    "passwordConfirmation": "12345678",
     "province": "Laguna",
     "city": "Sta Rosa",
     "barangay": "Market Area",
-    "contactNumber":"0949602251",
-    "email": "jemuelfontila123@gmail.com"
+    "contactNumber":"09196022579",
+    "verificationCode":"510174",
+    "email": "jemuelfontila14223525@gmail.com"
 }

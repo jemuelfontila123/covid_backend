@@ -19,13 +19,34 @@ const errorHandler = (error, request, response, next) => {
   if(error.message == 'invalid email or password') {
     response.status(400).json({error: error.message})
   }
+  if(error.name === 'ValidationError'){
+    response.status(400).json({error: error.message})
+  }
+  if(error.message === 'verification code invalid'){
+    response.status(400).json({error: error.message})
+  }
+  if(error.message === 'unauthorized user'){
+    response.status(401).json({error: error.message})
+  }
   if(error.errors) {
     const errors = error.errors;
     response.status(400).json({error: errors.map(error => error)})
   }
   next();
 }
+
+const getToken = (request, response, next) => {
+  const authorization = request.get('authorization')
+  if(authorization && authorization.toLowerCase().startsWith('bearer')){
+    request.token = authorization.substring('7')
+  }
+  else{
+    request.token = null;
+  }
+  next();
+}
 module.exports = {
     validate,
-    errorHandler
+    errorHandler,
+    getToken
 }

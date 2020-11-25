@@ -1,0 +1,1 @@
+GET http://localhost:3001/users/getmessage/SM39bed50266de461b868162e4164bf182

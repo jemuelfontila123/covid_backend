@@ -1,0 +1,6 @@
+POST http://localhost:3001/sms/verify/
+Content-Type: application/json
+
+{
+    "contactNumber":"639196022579"
+}

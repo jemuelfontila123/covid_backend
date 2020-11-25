@@ -25,6 +25,15 @@ const userSchema = new Schema({
         max: 254,
         unique: true
     },
+    birthday: Date,  
+    history: [
+        {   
+            timeStamp:Date
+        },
+        {
+            location: String
+        }
+    ]
 })
 userSchema.plugin(uniqueValidator)
 userSchema.set('toJSON', {
