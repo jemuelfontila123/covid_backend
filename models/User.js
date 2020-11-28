@@ -14,10 +14,11 @@ const userSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Address'
     },
+    role: ['user', 'admin'],
     contactNumber: {
         type: String,
-        min:11,
-        max:11,
+        min:12,
+        max:12,
         unique: true
     },
     email: {

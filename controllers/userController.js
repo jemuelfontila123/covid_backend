@@ -19,7 +19,6 @@ exports.getMessage = async(request,response) => {
 exports.getUsers = async(request, response) => {
     const users = await User.find({})
     response.json(users);
-
 }
 // Checks the log in form and validate it
 exports.userLogin = [
@@ -70,6 +69,7 @@ exports.userRegister = [
         lastName,
         passwordHash,
         address: newAddress._id,
+        role: 'user',
         contactNumber,
         email
     });

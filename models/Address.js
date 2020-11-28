@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose;
 
 const addressSchema = new Schema({
+    region: String,
     province: String,
     city: String,
     barangay: String,   
