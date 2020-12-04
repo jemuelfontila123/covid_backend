@@ -26,7 +26,6 @@ const userSchema = new Schema({
         max: 254,
         unique: true
     },
-    birthday: Date,  
     history: [
         {   
             timeStamp:Date

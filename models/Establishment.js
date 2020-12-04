@@ -3,16 +3,13 @@ const { Schema } = mongoose;
 const uniqueValidator = require('mongoose-unique-validator')
 
 const establishmentSchema = new Schema({
-    firstName: String,
-    middleName: String,
-    lastName: String,
+    name: {
+        type: String,
+        min:1,
+    },
     passwordHash: {
         type: String,
         min:8
-    },
-    address: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Address'
     },
     role: ['admin','employee'],
     visitors: [{
