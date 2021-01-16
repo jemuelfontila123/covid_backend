@@ -2,14 +2,10 @@ POST http://localhost:3001/users/register/
 Content-Type: application/json
 
 {
-    "firstName":"Jemuel",
-    "middleName":"Yu",
-    "lastName": "Fontila",
-    "password": "12345678910",
-    "province": "Laguna",
-    "city": "Sta Rosa",
-    "barangay": "Market Area",
-    "contactNumber":"09196022579",
-    "verificationCode":"510174",
-    "email": "jemuelfontila14223525@gmail.com"
+    "firstName":"J",
+    "lastName": "",
+    "password": "123",
+    "verificationCode": "77120",
+    "contactNumber": "639196022579",
+    "email": "jemu125125elfontil121251251255125125a@gmail.com"
 }

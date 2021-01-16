@@ -4,27 +4,22 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 const userSchema = new Schema({
     firstName: String,
-    middleName: String,
     lastName: String,
     passwordHash: {
         type: String,
         min:8
-    },
-    address: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Address'
     },
     role: ['user', 'admin'],
     contactNumber: {
         type: String,
         min:12,
         max:12,
-        unique: true
+        // unique: true
     },
     email: {
         type:String,
         max: 254,
-        unique: true
+        // unique: true
     },
     history: [
         {   
@@ -33,7 +28,23 @@ const userSchema = new Schema({
         {
             location: String
         }
-    ]
+    ],
+    user: [ 
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+    establishment: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Establishment'
+        }
+    ],
+    verified: {
+        type: Boolean,
+        default: false
+    }
 })
 userSchema.plugin(uniqueValidator)
 userSchema.set('toJSON', {
@@ -41,7 +52,7 @@ userSchema.set('toJSON', {
         ret.id = ret._id;
         delete ret._id;
         delete ret.__v;
-        delete ret.password;
+        delete ret.passwordHash;
     }
 })
 module.exports = mongoose.model('User',userSchema)

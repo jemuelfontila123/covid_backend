@@ -7,6 +7,10 @@ const establishmentSchema = new Schema({
         type: String,
         min:1,
     },
+    contactPerson: {
+        type: String,
+        min: 1,
+    },
     passwordHash: {
         type: String,
         min:8
@@ -15,6 +19,10 @@ const establishmentSchema = new Schema({
     visitors: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:'User'
+    }],
+    employees: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Establishment'
     }],
     contactNumber: {
         type: String,
@@ -27,6 +35,10 @@ const establishmentSchema = new Schema({
         max: 254,
         unique: true
     },
+    verified: {
+        type: Boolean,
+        default: false
+    }
 })
 
 establishmentSchema.plugin(uniqueValidator)
