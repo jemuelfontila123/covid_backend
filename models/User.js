@@ -19,7 +19,7 @@ const userSchema = new Schema({
     email: {
         type:String,
         max: 254,
-        // unique: true
+        unique: true
     },
     history: [
         {   

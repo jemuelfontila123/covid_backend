@@ -1,7 +1,7 @@
-POST http://localhost:3001/users/
+POST http://localhost:3001/login/
 Content-Type: application/json
 
 {
     "email":"jemuelfontila123@gmail.com",
-    "password":"jemuelgwapo21125125"
+    "password":"jemuelemperor"
 }

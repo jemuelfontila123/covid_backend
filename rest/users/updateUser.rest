@@ -1,0 +1,7 @@
+POST http://localhost:3001/users/update/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImplbXVlbGZvbnRpbGExMjNAZ21haWwuY29tIiwiaWQiOiI2MDA1ODUyMjZlZTk2MTMzYjRmMTY5M2IiLCJpYXQiOjE2MTA5NzU2MzB9.xguMKNCv3iNTx03brHHvW0B4eZzB1zE2hPdiACkL6ww
+
+{
+    "email":"jemuelfontila123@gmail.com"
+}

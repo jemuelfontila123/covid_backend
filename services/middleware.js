@@ -22,6 +22,9 @@ const errorHandler = (error, request, response, next) => {
   if(error.name === 'ValidationError'){
     response.status(400).json({error: error.message})
   }
+  if(error.name === 'JsonWebTokenError'){
+    response.status(401).json({error: 'Access invalid'})
+  }
   if(error.message === 'verification code invalid'){
     response.status(400).json({error: error.message})
   }

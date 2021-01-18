@@ -7,38 +7,19 @@ const jwt = require('jsonwebtoken')
 const transporter = require('../services/config').transporter;
 const client = require('twilio')(config.SID, config.AUTH_TOKEN);
 
-exports.getUsers = async(request, response) => {
+exports.getAll = async(request, response) => {
     const users = await User.find({})
     response.json(users);
 }
-// Checks the log in form and validate it
-exports.userLogin = [
-    // Sanitize
-    body('email').isEmail().normalizeEmail(),
-    body('password').trim().escape()
-    , async(request, response) => {
-    const errors = validationResult(request)
-    if(!errors.isEmpty()){ throw (errors) }
-    const {email, password} = request.body
-    const user = await User.findOne({email: email})
-    if(!user) {throw Error('invalid email or password')}
-    const comparePassword = await bcrypt.compare(password, user.passwordHash)
-    if(!comparePassword || !user) {throw Error('invalid email or password')}
-    const userToken = {
-        email: user.email,
-        id: user.id
-    }
-    const token = jwt.sign(userToken, config.SECRET)
-    response.json({user, token})
-    }
-]
+
 // It checks the sign up form and validate it
-exports.userRegister = [
+exports.register = [
     body('*').trim().escape(),
     body('email').normalizeEmail(),
     // Validation
     body('email').isEmail().withMessage('must be a valid email'),
-    body('verificationCode').isLength({max:6})
+    body('verificationCode').isLength({max:6}),
+    body('password').isLength({min: 8})
     ,async (request, response) => {
     const errors = validationResult(request)
     if(!errors.isEmpty()){ throw (errors) }
@@ -58,22 +39,25 @@ exports.userRegister = [
     response.json(savedUser)
     }
 ]
-// Updates Profile
-// exports.userUpdate = [
-//      // Sanitization
-//     body('*').trim().escape(),
-//     //  Validation
-//     body('password').not().isEmpty()
-//     ,async (request, response) => {
-//     const compareToken = await jwt.verify(config.SECRET, request.token)
-//     const {firstName, middleName, lastName} = request.body;
-//     const { province, city, barangay } = request.body;
-//     if(!compareToken) { throw Error('unauthorized user')}
-//         const update = {
-            
-//         }
-//     }
-// ]
+//Updates Profile
+exports.update = [
+     // Sanitization
+    body('*').trim().escape()
+    //  Validation
+    ,async (request, response) => {
+    const compareToken = jwt.verify(request.token, config.SECRET)
+    const {firstName, lastName, email} = request.body;
+    const user  = {
+        firstName,
+        lastName,
+        email,
+        verified: true
+    }
+    if(!compareToken) { throw Error('unauthorized user')}
+    const userUpdate = await User.findOneAndUpdate({email}, user)
+    response.status(200).end()
+    }
+]
 
 // Get History
 
