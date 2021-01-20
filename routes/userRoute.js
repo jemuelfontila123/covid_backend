@@ -8,6 +8,7 @@ router.post('/register', userController.register)
 
 router.post('/update',userController.update)
 
+router.post('/getqr',userController.getQR)
 
 
 

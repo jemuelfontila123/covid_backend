@@ -1,0 +1,7 @@
+POST http://localhost:3001/users/getqr/
+Content-Type: application/json
+Authorization: Bearer eysJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImplbXVlbGZvbnRpbGExMjNAZ21haWwuY29tIiwiaWQiOiI2MDA1ODUyMjZlZTk2MTMzYjRmMTY5M2IiLCJraW5kIjoiVXNlciIsImlhdCI6MTYxMTE0NzM0M30.t0qNAFiTw6-1voWYC4meOJwsRx_MYhu5d9JxFstaRR4
+
+{
+    "id":"600585226ee96133b4f1693b"
+}

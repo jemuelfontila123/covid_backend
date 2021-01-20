@@ -6,7 +6,7 @@ const config = require('../services/config')
 const jwt = require('jsonwebtoken')
 const transporter = require('../services/config').transporter;
 const client = require('twilio')(config.SID, config.AUTH_TOKEN);
-
+const qr = require('qrcode');   
 exports.getAll = async(request, response) => {
     const users = await User.find({})
     response.json(users);
@@ -62,6 +62,11 @@ exports.update = [
 // Get History
 
 // Get QR Code
-
+exports.getQR = async(request, response) => {
+    const decodedToken = jwt.verify(request.token, config.SECRET)
+    const user = await User.findById(request.body.id);
+    const sendQr = await qr.toDataURL(user.id);
+    response.json(sendQr)
+}
 
 // Forgot Password
