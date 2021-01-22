@@ -28,7 +28,7 @@ const establishmentSchema = new Schema({
         type: String,
         min:12,
         max:12,
-        unique: true
+        // unique: true
     },
     email: {
         type:String,

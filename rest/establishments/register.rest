@@ -1,0 +1,10 @@
+POST http://localhost:3001/establishments/register
+Content-Type: application/json
+
+{
+    "contactPerson" : "Jemuel Fontila",
+    "name": "SM",
+    "contactNumber": "639196022579",
+    "email":"jomborombosahapon@gmail.com",
+    "password":"jemuelemperor"
+}

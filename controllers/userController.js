@@ -65,7 +65,9 @@ exports.update = [
 exports.getQR = async(request, response) => {
     const decodedToken = jwt.verify(request.token, config.SECRET)
     const user = await User.findById(request.body.id);
-    const sendQr = await qr.toDataURL(user.id);
+    if(decodedToken.id !== user.id){ throw Error('access invalid')}
+    const stringify = JSON.stringify(user)
+    const sendQr = await qr.toDataURL(stringify);
     response.json(sendQr)
 }
 

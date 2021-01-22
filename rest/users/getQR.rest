@@ -1,7 +1,8 @@
 POST http://localhost:3001/users/getqr/
 Content-Type: application/json
-Authorization: Bearer eysJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImplbXVlbGZvbnRpbGExMjNAZ21haWwuY29tIiwiaWQiOiI2MDA1ODUyMjZlZTk2MTMzYjRmMTY5M2IiLCJraW5kIjoiVXNlciIsImlhdCI6MTYxMTE0NzM0M30.t0qNAFiTw6-1voWYC4meOJwsRx_MYhu5d9JxFstaRR4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImplbXVlbGZvbnRpbGExMjNAZ21haWwuY29tIiwiaWQiOiI2MDA1ODUyMjZlZTk2MTMzYjRmMTY5M2IiLCJraW5kIjoiVXNlciIsImlhdCI6MTYxMTIzMTE2OH0.h20dd0CstXoTliW5jhP8ZJGyUeD3zECEEo3Ceela3D4
 
 {
-    "id":"600585226ee96133b4f1693b"
+    "id":"600585226ee96133b4f1693b",
+    "verified": "true"
 }

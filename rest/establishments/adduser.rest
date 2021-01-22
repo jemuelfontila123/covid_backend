@@ -1,0 +1,8 @@
+POST http://localhost:3001/establishments/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvbWJvcm9tYm9zYWhhcG9uQGdtYWlsLmNvbSIsImlkIjoiNjAwYTllNGMwM2M4MDIyNjY0NjFlNjhiIiwia2luZCI6IkVzdGFibGlzaG1lbnQiLCJpYXQiOjE2MTEzMDk2ODN9.VbHS0GBKF1is5woq0yp7NQIwdaHnbO-qz6MC3oE_O_0
+
+{
+    "establishmentId": "600a9e4c03c802266461e68b",
+    "userId": "600585226ee96133b4f1693b"
+}
