@@ -9,7 +9,7 @@ const userSchema = new Schema({
         type: String,
         min:8
     },
-    role: ['user', 'admin'],
+    role: ['user','admin'],
     contactNumber: {
         type: String,
         min:12,

@@ -22,13 +22,23 @@ exports.getUsers = async(request, response) => {
 }
 
 exports.addUser = async(request, response) => {
-    const decodedToken = jwt.verify(request.token, config.SECRET)
-    const establishment = await Establishment.findById(request.body.establishmentId)
-    if(decodedToken.id !== establishment.id){ throw Error('access invalid')}
+    const decodedToken =   jwt.verify(request.token, config.SECRET)
+    request.credentials = { role: decodedToken.role }
+    const establishment = await Establishment.findById(decodedToken.id)
     const user = await User.findById(request.body.userId)
     establishment.visitors = establishment.visitors.concat(user.id)
     await establishment.save();
     response.json(establishment)
+}
+exports.deleteUser = async(request, response) => {
+    const decodedToken =   jwt.verify(request.token, config.SECRET)
+    request.credentials = {role: decodedToken.role}
+    const establishment = await Establishment.findById(decodedToken.id)
+    const user = await User.findById(request.body.userId)
+    console.log(establishment.visitors[1]==user.id)
+    establishment.visitors = establishment.visitors.filter(visitor => visitor != user.id)
+    await establishment.save(); 
+    response.json(establishment);
 }
 exports.addEmployee = [
     body('*').trim().escape(),
@@ -36,9 +46,30 @@ exports.addEmployee = [
     //Validation
     body('email').isEmail().withMessage('must be a valid email')
     , async(request, response) => {
+        const { contactPerson, name, contactNumber, password, email, id} = request.body;
         const errors = validationResult(request)
-        if(!errors.isEmpty()){ throw (errors) }
-        const { contactPerson, name, contactNumber, password, email} = request.body;
+        const decodedToken = jwt.verify(request.token, config.SECRET)
+        request.establishment = {
+            role: decodedToken.establishment.role
+        }
+        // const passwordHash = await bcrypt.hash(password, 10);
+        // const establishment = await Establishment.findById(id);
+        // if(!errors.isEmpty()){ throw (errors) }
+        // if(decodedToken.id.toString() !== establishment.id.toString()){ throw Error('access invalid')}
+        // const newEmployee = new Establishment({
+        //     name,
+        //     contactPerson,
+        //     passwordHash,
+        //     role: 'employee',
+        //     contactNumber,
+        //     email,
+        //     verified: true 
+        // });
+        // const savedEmployee =  await newEstablishment.save();
+        // establishment.employees = establishment.employees.concat(savedEmployee)
+        // await establishment.save();
+        // response.json(savedEmployee)
+        response.status(200).end()
     }
 ]
 exports.register = [
@@ -52,7 +83,7 @@ exports.register = [
         if(!errors.isEmpty()){ throw (errors) }
         const { contactPerson, name, contactNumber, password, email} = request.body;
         const passwordHash = await bcrypt.hash(password, 10);
-        const newEstablishment = new Establishment({
+        const newAdmin = new Establishment({
             name,
             contactPerson,
             passwordHash,
@@ -62,8 +93,8 @@ exports.register = [
             // default should be false
             verified: true 
         });
-        const savedEstablishment = await newEstablishment.save();
-        response.json(savedEstablishment);
+        const savedAdmin = await newEstablishment.save();
+        response.json(savedAdmin);
         }
 ]
 

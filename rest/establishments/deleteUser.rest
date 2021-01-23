@@ -1,4 +1,4 @@
-POST http://localhost:3001/establishments/
+DELETE  http://localhost:3001/establishments/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvbWJvcm9tYm9zYWhhcG9uQGdtYWlsLmNvbSIsImlkIjoiNjAwYTllNGMwM2M4MDIyNjY0NjFlNjhiIiwia2luZCI6IkVzdGFibGlzaG1lbnQiLCJyb2xlIjpbImFkbWluIl0sImlhdCI6MTYxMTM3ODkwOH0.YnyPuysVE_NVw-t81eL44pjNbgOyCGeboK-vFscj2EM
 

@@ -13,6 +13,20 @@ const validate = validations => {
     };
   };
 
+const authenticate = rolesArray => (request, response, next) => {
+  next();
+  if(request.credentials){
+    let authorized = false;
+    let i=0;
+    while(!authorized && i < rolesArray.length){
+      authorized = request.credentials.role.toString() === rolesArray[i]
+      i++;
+    }
+    if(!authorized){response.status(401).json({success: false, message: 'Unauthorized'})}
+  }else{
+    response.status(401).json({success: false, message: 'Unauthorized'})
+  }
+}
 const errorHandler = (error, request, response, next) => {
   console.log(error.message)
   console.log(error.name)
@@ -51,5 +65,6 @@ const getToken = (request, response, next) => {
 module.exports = {
     validate,
     errorHandler,
-    getToken
+    getToken,
+    authenticate,
 }

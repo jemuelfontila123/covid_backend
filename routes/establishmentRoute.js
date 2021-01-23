@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const establishmentController = require('../controllers/establishmentController')
-
+const middleware = require('../services/middleware')
 router.route('/')
     .get(establishmentController.getAll)
-    .post(establishmentController.addUser)
-    
+    .post(middleware.authenticate(['admin','employee']),establishmentController.addUser)
+    .delete(middleware.authenticate(['admin']), establishmentController.deleteUser)
 router.post('/register', establishmentController.register)
 
-router.post('/getusers', establishmentController.getUsers)
+router.post('/getusers', middleware.authenticate(['admin']),establishmentController.getUsers)
 module.exports = router;

@@ -24,7 +24,8 @@ exports.login = [
         const userToken = {
             email: user.email,
             id: user.id,
-            kind
+            kind,
+            role: user.role
         }
         const token = jwt.sign(userToken, config.SECRET)
         response.json({user, token})
@@ -36,7 +37,8 @@ exports.login = [
         const userToken = {
             email: establishment.email,
             id: establishment.id,
-            kind
+            kind,
+            role: establishment.role
         }
         const token = jwt.sign(userToken, config.SECRET)
         response.json({establishment, token})
