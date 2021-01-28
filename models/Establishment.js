@@ -28,7 +28,7 @@ const establishmentSchema = new Schema({
         type: String,
         min:12,
         max:12,
-        // unique: true
+        unique: true
     },
     email: {
         type:String,
@@ -42,7 +42,7 @@ const establishmentSchema = new Schema({
 })
 
 establishmentSchema.plugin(uniqueValidator)
-establishmentSchema.set('toJON', {
+establishmentSchema.set('toJSON', {
     transform: (doc, ret) => {
         ret.id = ret._id;
         delete ret._id;

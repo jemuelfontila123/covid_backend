@@ -18,15 +18,12 @@ exports.register = [
     body('email').normalizeEmail(),
     // Validation
     body('email').isEmail().withMessage('must be a valid email'),
-    body('verificationCode').isLength({max:6}),
     body('password').isLength({min: 8})
     ,async (request, response) => {
     const errors = validationResult(request)
     if(!errors.isEmpty()){ throw (errors) }
-    const { firstName, lastName, contactNumber, email, verificationCode, password} = request.body;
+    const { firstName, lastName, contactNumber, email, password} = request.body;
     const passwordHash = await bcrypt.hash(password, 10);
-    const compareVerificationCode = await bcrypt.compare(verificationCode, config.verificationCode)
-    if(!compareVerificationCode) { throw Error('verification code invalid')}
     const newUser = new User({
         firstName,
         lastName,

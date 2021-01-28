@@ -24,9 +24,6 @@ const userSchema = new Schema({
     history: [
         {   
             timeStamp:Date
-        },
-        {
-            location: String
         }
     ],
     user: [ 

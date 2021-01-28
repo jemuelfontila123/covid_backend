@@ -52,23 +52,23 @@ exports.addEmployee = [
         request.establishment = {
             role: decodedToken.establishment.role
         }
-        // const passwordHash = await bcrypt.hash(password, 10);
-        // const establishment = await Establishment.findById(id);
-        // if(!errors.isEmpty()){ throw (errors) }
-        // if(decodedToken.id.toString() !== establishment.id.toString()){ throw Error('access invalid')}
-        // const newEmployee = new Establishment({
-        //     name,
-        //     contactPerson,
-        //     passwordHash,
-        //     role: 'employee',
-        //     contactNumber,
-        //     email,
-        //     verified: true 
-        // });
-        // const savedEmployee =  await newEstablishment.save();
-        // establishment.employees = establishment.employees.concat(savedEmployee)
-        // await establishment.save();
-        // response.json(savedEmployee)
+        const passwordHash = await bcrypt.hash(password, 10);
+        const establishment = await Establishment.findById(id);
+        if(!errors.isEmpty()){ throw (errors) }
+        if(decodedToken.id.toString() !== establishment.id.toString()){ throw Error('access invalid')}
+        const newEmployee = new Establishment({
+            name,
+            contactPerson,
+            passwordHash,
+            role: 'employee',
+            contactNumber,
+            email,
+            verified: true 
+        });
+        const savedEmployee =  await newEstablishment.save();
+        establishment.employees = establishment.employees.concat(savedEmployee)
+        await establishment.save();
+        response.json(savedEmployee)
         response.status(200).end()
     }
 ]
@@ -93,7 +93,7 @@ exports.register = [
             // default should be false
             verified: true 
         });
-        const savedAdmin = await newEstablishment.save();
+        const savedAdmin = await newAdmin.save();
         response.json(savedAdmin);
         }
 ]
