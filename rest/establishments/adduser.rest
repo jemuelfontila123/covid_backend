@@ -1,7 +1,11 @@
 POST http://localhost:3001/establishments/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvbWJvcm9tYm9zYWhhcG9uQGdtYWlsLmNvbSIsImlkIjoiNjAwYTllNGMwM2M4MDIyNjY0NjFlNjhiIiwia2luZCI6IkVzdGFibGlzaG1lbnQiLCJyb2xlIjpbImFkbWluIl0sImlhdCI6MTYxMTM3ODkwOH0.YnyPuysVE_NVw-t81eL44pjNbgOyCGeboK-vFscj2EM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvbWJvcm9tYm8xMjNAZ21haWwuY29tIiwiaWQiOiI2MDE3ZTY5NTJiYzkzYzE5ZjRkYzIwMzYiLCJraW5kIjoiRXN0YWJsaXNobWVudCIsInJvbGUiOlsiYWRtaW4iXSwiaWF0IjoxNjEyNTMyMTA3fQ.vIsJzA7mxQyQtmraJ13qLIESQ9FpebwDyVT9s__pFfc
 
 {
-    "userId": "600585226ee96133b4f1693b"
+    "userId":"601d49fa1cf9bc27b437ec8e",
+    "firstName":"Jemuel",
+    "lastName":"Fontila",
+    "contactNumber":"639262313123",
+    "email":"jem123@gmail.com"
 }

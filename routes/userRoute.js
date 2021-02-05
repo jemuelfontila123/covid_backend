@@ -4,6 +4,7 @@ const userController = require('../controllers/userController')
 router.route('/')
     .get(userController.getAll)
 
+router.get('/instances', userController.getInstances)
 router.post('/register', userController.register)
 
 router.post('/update',userController.update)

@@ -14,18 +14,13 @@ const userSchema = new Schema({
         type: String,
         min:12,
         max:12,
-        // unique: true
+        unique: true
     },
     email: {
         type:String,
         max: 254,
         unique: true
     },
-    history: [
-        {   
-            timeStamp:Date
-        }
-    ],
     user: [ 
         {
             type: mongoose.Schema.Types.ObjectId,

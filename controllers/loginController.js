@@ -43,6 +43,7 @@ exports.login = [
         const token = jwt.sign(userToken, config.SECRET)
         response.json({establishment, token})
     }
-    response.status(401).end()
+    
+    else { throw Error('invalid email or password') }
     }
 ]

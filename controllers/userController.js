@@ -1,5 +1,6 @@
 require('express-async-errors');
 const User = require('../models/User')
+const UserInstances = require('../models/UserInstances')
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt')
 const config = require('../services/config')
@@ -12,6 +13,10 @@ exports.getAll = async(request, response) => {
     response.json(users);
 }
 
+exports.getInstances = async(request, response) => {
+    const userInstances = await UserInstances.find({})
+    response.json(userInstances)
+}
 // It checks the sign up form and validate it
 exports.register = [
     body('*').trim().escape(),

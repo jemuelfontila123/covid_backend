@@ -1,13 +1,14 @@
 require('express-async-errors');
 const Establishment = require('../models/Establishment')
 const User = require('../models/User')
+const UserInstances = require('../models/UserInstances')
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt')
 const config = require('../services/config')
 const jwt = require('jsonwebtoken')
 const transporter = require('../services/config').transporter;
 const client = require('twilio')(config.SID, config.AUTH_TOKEN);
-
+const format = require('date-fns')
 exports.getAll = async(request, response) => {
     const establishments = await Establishment.find({})
     response.json(establishments)
@@ -15,7 +16,7 @@ exports.getAll = async(request, response) => {
 
 exports.getUsers = async(request, response) => {
     const decodedToken = jwt.verify(request.token, config.SECRET)
-    const establishment = await Establishment.findById(request.body.id).populate('visitors',{firstName:1, lastName:1, contactNumber:1, email:1})
+    const establishment = await Establishment.findById(request.body.id).populate('visitors',{firstName:1, lastName:1, contactNumber:1, email:1, timeStamp:1})
     if(decodedToken.id !== establishment.id){ throw Error('access invalid')}
     const visitors = establishment.visitors;
     response.json(visitors);
@@ -25,8 +26,17 @@ exports.addUser = async(request, response) => {
     const decodedToken =   jwt.verify(request.token, config.SECRET)
     request.credentials = { role: decodedToken.role }
     const establishment = await Establishment.findById(decodedToken.id)
-    const user = await User.findById(request.body.userId)
-    establishment.visitors = establishment.visitors.concat(user.id)
+    const {firstName, lastName, email, contactNumber, userId} = request.body;
+    const user = await User.findById(userId)
+    if(!user) { throw Error('user invalid')}
+    const userInstance = new UserInstances({
+        firstName,
+        lastName,
+        email,
+        contactNumber
+    })
+    const savedUserInstance = await userInstance.save()
+    establishment.visitors = establishment.visitors.concat(savedUserInstance)
     await establishment.save();
     response.json(establishment)
 }
@@ -34,9 +44,9 @@ exports.deleteUser = async(request, response) => {
     const decodedToken =   jwt.verify(request.token, config.SECRET)
     request.credentials = {role: decodedToken.role}
     const establishment = await Establishment.findById(decodedToken.id)
-    const user = await User.findById(request.body.userId)
-    console.log(establishment.visitors[1]==user.id)
-    establishment.visitors = establishment.visitors.filter(visitor => visitor != user.id)
+    const userInstance = await UserInstance.findById(request.body.userId)
+    console.log(establishment.visitors[1]==userInstance.id)
+    establishment.visitors = establishment.visitors.filter(visitor => visitor != userInstance.id)
     await establishment.save(); 
     response.json(establishment);
 }

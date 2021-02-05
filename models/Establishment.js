@@ -18,7 +18,7 @@ const establishmentSchema = new Schema({
     role: ['admin','employee'],
     visitors: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'UserInstances'
     }],
     employees: [{
         type: mongoose.Schema.Types.ObjectId,
