@@ -1,5 +1,5 @@
 require('express-async-errors');
-const User = require('../models/User')
+const User = require('../models/User').User
 const UserInstances = require('../models/UserInstances')
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt')

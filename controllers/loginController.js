@@ -1,6 +1,6 @@
 require('express-async-errors');
-const Establishment = require('../models/Establishment')
-const User = require('../models/User')
+const Establishment = require('../models/Establishment').Establishment
+const User = require('../models/User').User
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt')
 const config = require('../services/config')

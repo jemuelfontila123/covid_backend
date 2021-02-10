@@ -1,19 +1,28 @@
 require('express-async-errors');
-const Establishment = require('../models/Establishment')
-const User = require('../models/User')
-const UserInstances = require('../models/UserInstances')
+const Establishment = require('../models/Establishment').Establishment
+const User = require('../models/User').User
+const UserInstances = require('../models/UserInstances').UserInstances
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt')
 const config = require('../services/config')
 const jwt = require('jsonwebtoken')
 const transporter = require('../services/config').transporter;
 const client = require('twilio')(config.SID, config.AUTH_TOKEN);
-const format = require('date-fns')
+
 exports.getAll = async(request, response) => {
     const establishments = await Establishment.find({})
     response.json(establishments)
 }
-
+exports.getEstablishmentById = async(request, response) => {
+    const decodedToken =   jwt.verify(request.token, config.SECRET)
+    request.credentials = { role: decodedToken.role }
+    if(decodedToken.id !== request.params.id) { throw Error('access invalid')}
+    const establishment = await Establishment.findById(decodedToken.id)
+        .populate('visitors',{firstName:1, lastName:1, contactNumber:1, email:1, timeStamp:1})
+        .populate('employees', {contactPerson:1, email:1, contactNumber:1, verified:1})
+    if(!establishment) {throw Error('access invalid')}
+    response.json(establishment)
+}
 exports.getUsers = async(request, response) => {
     const decodedToken = jwt.verify(request.token, config.SECRET)
     const establishment = await Establishment.findById(request.body.id).populate('visitors',{firstName:1, lastName:1, contactNumber:1, email:1, timeStamp:1})

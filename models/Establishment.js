@@ -50,5 +50,5 @@ establishmentSchema.set('toJSON', {
         delete ret.password;
     }
 })
-
-module.exports = mongoose.model('Establishment',establishmentSchema)
+const Establishment = mongoose.model('Establishment', establishmentSchema);
+module.exports = {establishmentSchema, Establishment}

@@ -27,4 +27,6 @@ userInstancesSchema.set('toJSON', {
         delete ret.__v;
     }
 })
-module.exports = mongoose.model('UserInstances',userInstancesSchema)
+
+const UserInstances = mongoose.model('UserInstances', userInstancesSchema);
+module.exports = { userInstancesSchema, UserInstances}
