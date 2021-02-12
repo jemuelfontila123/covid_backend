@@ -5,9 +5,8 @@ const middleware = require('../services/middleware')
 router.route('/')
     .get(establishmentController.getAll)
     .post(middleware.authenticate(['admin','employee']),establishmentController.addUser)
-    .delete(middleware.authenticate(['admin']), establishmentController.deleteUser)
 
-
+router.delete('/:id', middleware.authenticate(['admin']), establishmentController.deleteUser)
 router.post('/register', establishmentController.register)
 router.get('/:id', middleware.authenticate(['admin']), establishmentController.getEstablishmentById)
 router.post('/getusers', middleware.authenticate(['admin']),establishmentController.getUsers)

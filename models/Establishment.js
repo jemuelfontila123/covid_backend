@@ -7,6 +7,14 @@ const establishmentSchema = new Schema({
         type: String,
         min:1,
     },
+    firstName:{
+        type: String,
+        min:1
+    },
+    lastName: {
+        type: String,
+        min:1
+    },
     contactPerson: {
         type: String,
         min: 1,

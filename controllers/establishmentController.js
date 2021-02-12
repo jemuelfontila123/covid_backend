@@ -28,7 +28,7 @@ exports.getUsers = async(request, response) => {
     const establishment = await Establishment.findById(request.body.id).populate('visitors',{firstName:1, lastName:1, contactNumber:1, email:1, timeStamp:1})
     if(decodedToken.id !== establishment.id){ throw Error('access invalid')}
     const visitors = establishment.visitors;
-    response.json(visitors);
+    response.status(200).end()
 }
 
 exports.addUser = async(request, response) => {
@@ -49,11 +49,11 @@ exports.addUser = async(request, response) => {
     await establishment.save();
     response.json(establishment)
 }
-exports.deleteUser = async(request, response) => {
+exports.deleteUser = async (request, response) => {
     const decodedToken =   jwt.verify(request.token, config.SECRET)
     request.credentials = {role: decodedToken.role}
     const establishment = await Establishment.findById(decodedToken.id)
-    const userInstance = await UserInstance.findById(request.body.userId)
+    const userInstance = await UserInstances.findById(request.params.id)
     console.log(establishment.visitors[1]==userInstance.id)
     establishment.visitors = establishment.visitors.filter(visitor => visitor != userInstance.id)
     await establishment.save(); 
