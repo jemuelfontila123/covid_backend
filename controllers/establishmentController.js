@@ -84,11 +84,12 @@ exports.deleteEmployee = async(request, response) => {
     const establishment = await Establishment.findById(decodedToken.id)
     const employee = await Establishment.findById(request.params.id)
     // Still needs to add this error on middleware handleError
-    if(!employee){throw Error('employee not existing')}
-    establishment.employees = establishment.employees.filter(e => e!= employee.id)
-    await establishment.save(); 
+    // if(!employee){throw Error('employee not existing')}
+    establishment.employees = establishment.employees.filter(emp => emp != employee.id)
+    await establishment.save();
     response.json(establishment)
 }
+
 exports.register = [
     body('*').trim().escape(),
     body('email').normalizeEmail(),

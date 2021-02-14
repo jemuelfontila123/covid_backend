@@ -55,7 +55,7 @@ establishmentSchema.set('toJSON', {
         ret.id = ret._id;
         delete ret._id;
         delete ret.__v;
-        delete ret.password;
+        delete ret.passwordHash;
     }
 })
 const Establishment = mongoose.model('Establishment', establishmentSchema);
