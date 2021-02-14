@@ -1,0 +1,11 @@
+POST http://localhost:3001/establishments/employee
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvbWJvcm9tYm8xMjNAZ21haWwuY29tIiwiaWQiOiI2MDE3ZTY5NTJiYzkzYzE5ZjRkYzIwMzYiLCJraW5kIjoiRXN0YWJsaXNobWVudCIsInJvbGUiOlsiYWRtaW4iXSwiaWF0IjoxNjEzMjczNjkwfQ.yHLFwam0l-JIekTP9fQtk_-4F6ANSX7cPPLcFftPDsE
+
+{
+    "firstName":"Jemuel",
+    "lastName":"Fontila",
+    "contactNumber":"639196023679",
+    "password":"Jemuelemperor1",
+    "email":"jememploye123e@gmail.com"
+}

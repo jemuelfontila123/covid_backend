@@ -19,7 +19,7 @@ exports.getEstablishmentById = async(request, response) => {
     if(decodedToken.id !== request.params.id) { throw Error('access invalid')}
     const establishment = await Establishment.findById(decodedToken.id)
         .populate('visitors',{firstName:1, lastName:1, contactNumber:1, email:1, timeStamp:1})
-        .populate('employees', {contactPerson:1, email:1, contactNumber:1, verified:1})
+        .populate('employees', {firstName:1,lastName:1,  email:1, contactNumber:1})
     if(!establishment) {throw Error('access invalid')}
     response.json(establishment)
 }
@@ -54,43 +54,41 @@ exports.deleteUser = async (request, response) => {
     request.credentials = {role: decodedToken.role}
     const establishment = await Establishment.findById(decodedToken.id)
     const userInstance = await UserInstances.findById(request.params.id)
-    console.log(establishment.visitors[1]==userInstance.id)
     establishment.visitors = establishment.visitors.filter(visitor => visitor != userInstance.id)
     await establishment.save(); 
     response.json(establishment);
 }
-exports.addEmployee = [
-    body('*').trim().escape(),
-    body('email').normalizeEmail(),
-    //Validation
-    body('email').isEmail().withMessage('must be a valid email')
-    , async(request, response) => {
-        const { contactPerson, name, contactNumber, password, email, id} = request.body;
-        const errors = validationResult(request)
-        const decodedToken = jwt.verify(request.token, config.SECRET)
-        request.establishment = {
-            role: decodedToken.establishment.role
-        }
-        const passwordHash = await bcrypt.hash(password, 10);
-        const establishment = await Establishment.findById(id);
-        if(!errors.isEmpty()){ throw (errors) }
-        if(decodedToken.id.toString() !== establishment.id.toString()){ throw Error('access invalid')}
-        const newEmployee = new Establishment({
-            name,
-            contactPerson,
-            passwordHash,
-            role: 'employee',
-            contactNumber,
-            email,
-            verified: true 
-        });
-        const savedEmployee =  await newEstablishment.save();
-        establishment.employees = establishment.employees.concat(savedEmployee)
-        await establishment.save();
-        response.json(savedEmployee)
-        response.status(200).end()
-    }
-]
+exports.addEmployee = async(request, response) => {
+    const decodedToken =   jwt.verify(request.token, config.SECRET)
+    request.credentials = { role: decodedToken.role}
+    const { firstName, lastName , contactNumber, password, email} = request.body;
+    const passwordHash = await bcrypt.hash(password, 10);
+    const establishment = await Establishment.findById(decodedToken.id);
+    const newEmployee = new Establishment({
+        firstName,
+        lastName,
+        password: passwordHash,
+        role: 'employee',
+        contactNumber,
+        email,
+        verified: true 
+    });
+    const savedEmployee =  await newEmployee.save();
+    establishment.employees = establishment.employees.concat(savedEmployee)
+    await establishment.save();
+    response.json(establishment)
+}
+exports.deleteEmployee = async(request, response) => {
+    const decodedToken =   jwt.verify(request.token, config.SECRET)
+    request.credentials = { role: decodedToken.role}
+    const establishment = await Establishment.findById(decodedToken.id)
+    const employee = await Establishment.findById(request.params.id)
+    // Still needs to add this error on middleware handleError
+    if(!employee){throw Error('employee not existing')}
+    establishment.employees = establishment.employees.filter(e => e!= employee.id)
+    await establishment.save(); 
+    response.json(establishment)
+}
 exports.register = [
     body('*').trim().escape(),
     body('email').normalizeEmail(),
