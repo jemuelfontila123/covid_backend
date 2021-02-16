@@ -47,7 +47,7 @@ exports.addUser = async(request, response) => {
     const savedUserInstance = await userInstance.save()
     establishment.visitors = establishment.visitors.concat(savedUserInstance)
     await establishment.save();
-    response.json(establishment)
+    response.json(savedUserInstance)
 }
 exports.deleteUser = async (request, response) => {
     const decodedToken =   jwt.verify(request.token, config.SECRET)
@@ -76,7 +76,7 @@ exports.addEmployee = async(request, response) => {
     const savedEmployee =  await newEmployee.save();
     establishment.employees = establishment.employees.concat(savedEmployee)
     await establishment.save();
-    response.json(establishment)
+    response.json(savedEmployee)
 }
 exports.deleteEmployee = async(request, response) => {
     const decodedToken =   jwt.verify(request.token, config.SECRET)
