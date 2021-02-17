@@ -4,7 +4,7 @@ const smsController = require('../controllers/smsController')
 
 
 router.post('/verify', smsController.sendVerificationCode)
-
+router.post('/message', smsController.sendMessage)
 
 
 module.exports = router;

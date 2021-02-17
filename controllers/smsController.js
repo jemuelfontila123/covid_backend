@@ -20,3 +20,20 @@ exports.sendVerificationCode = async (request, response) => {
         response.status(400).end()
 }
 
+exports.sendMessage = async (request, response) => {
+    const generatedToken = phoneToken(6, {type: 'string'})
+    console.log(request.body.contactNumber)
+    const sendMessage = await client.messages
+        .create({
+            body: request.body.message,
+            from: "+12055909323",
+            to: `+${request.body.contactNumber}`
+        })
+   const hashedToken = await bcrypt.hash(generatedToken, 10);
+   config.verificationCode = hashedToken;
+   response.status(200).end()
+   if(!sendMessage)
+    response.status(400).end()
+}
+
+
