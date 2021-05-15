@@ -1,5 +1,22 @@
 require('dotenv').config()
 const nodemailer = require("nodemailer");
+const multer = require('multer');
+
+exports.storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads/');
+    },
+    filename: function(req, file, cb) {
+        let addName = new Date().toISOString()
+        cb(null, addName.split(':').join('') + file.originalname );
+    }
+})
+exports.fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype==='image/jpg'){
+        cb(null, true);
+    }
+    else cb(null,false);
+}
 exports.transporter = nodemailer.createTransport({
     host : process.env.GMAIL_SERVICE_HOST,
     port: process.env.GMAIL_SERVICE_PORT,

@@ -17,6 +17,10 @@ const userInstancesSchema = new Schema({
     timeStamp : {
         type: Date,
         default: Date.now
+    },
+    img: {
+        type:String,
+        default : 'default.jpg'
     }
 })
 

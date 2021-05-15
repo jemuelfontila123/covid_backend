@@ -67,7 +67,7 @@ exports.addEmployee = async(request, response) => {
     const newEmployee = new Establishment({
         firstName,
         lastName,
-        password: passwordHash,
+        passwordHash,
         role: 'employee',
         contactNumber,
         email,

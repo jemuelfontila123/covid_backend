@@ -8,6 +8,12 @@ const jwt = require('jsonwebtoken')
 const transporter = require('../services/config').transporter;
 const client = require('twilio')(config.SID, config.AUTH_TOKEN);
 const qr = require('qrcode');   
+const multer = require('multer')
+
+
+exports.try = async(request, response) => {
+   console.log(request.file)
+}
 exports.getAll = async(request, response) => {
     const users = await User.find({})
     response.json(users);
@@ -59,6 +65,22 @@ exports.update = [
     const userUpdate = await User.findOneAndUpdate({email}, user)
     response.status(200).end()
     }
+]
+exports.uploadImage = [ 
+     // Sanitization
+     body('*').trim().escape()
+     //  Validation
+     ,async (request, response) => {
+    const decodedToken = jwt.verify(request.token, config.SECRET)
+    const user = await User.findById(request.body.id);
+    if(decodedToken.id !== user.id){ throw Error('access invalid')}
+     const updatedUser  = {
+        image: request.file.path
+     }
+     if(!compareToken) { throw Error('unauthorized user')}
+     const userUpdate = await User.findByIdAndUpdate(decodedToken.id, updatedUser)
+     response.status(200).end()
+     }
 ]
 
 // Get History
