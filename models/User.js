@@ -21,10 +21,10 @@ const userSchema = new Schema({
         max: 254,
         unique: true
     },
-    user: [ 
+    instances: [ 
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'UserInstances'
         }
     ],
     establishment: [
@@ -36,7 +36,12 @@ const userSchema = new Schema({
     verified: {
         type: Boolean,
         default: false
-    }
+    },
+    img: {
+        type:String,
+        default : 'default.jpg'
+    },
+    status: ['good','mild','severe']
 })
 userSchema.plugin(uniqueValidator)
 userSchema.set('toJSON', {

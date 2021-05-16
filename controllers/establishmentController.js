@@ -42,7 +42,8 @@ exports.addUser = async(request, response) => {
         firstName,
         lastName,
         email,
-        contactNumber
+        contactNumber,
+        main: userId
     })
     const savedUserInstance = await userInstance.save()
     establishment.visitors = establishment.visitors.concat(savedUserInstance)

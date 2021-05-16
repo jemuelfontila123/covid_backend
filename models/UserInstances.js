@@ -18,10 +18,11 @@ const userInstancesSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    img: {
-        type:String,
-        default : 'default.jpg'
-    }
+    main: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    status: ['good','mild','severe']
 })
 
 userInstancesSchema.set('toJSON', {
