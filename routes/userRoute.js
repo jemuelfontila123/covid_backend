@@ -11,7 +11,7 @@ router.route('/')
 router.get('/instances', userController.getInstances)
 router.post('/register', userController.register)
 router.post('/update',userController.update)
-
+router.post('/upload', upload.single('avatar'),userController.uploadImage)
 router.post('/getqr',userController.getQR)
 // Trying uploading images
 router.post('/try',upload.single('avatar'),userController.try)

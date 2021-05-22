@@ -39,7 +39,7 @@ const userSchema = new Schema({
     },
     img: {
         type:String,
-        default : 'default.jpg'
+        default : '/uploads/default.jpg'
     },
     status: ['good','mild','severe']
 })
