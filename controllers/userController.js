@@ -18,7 +18,13 @@ exports.getAll = async(request, response) => {
     const users = await User.find({})
     response.json(users);
 }
-
+exports.getUserById = async(request, response) => {
+    const decodedToken =   jwt.verify(request.token, config.SECRET)
+    if(decodedToken.id !== request.params.id) { throw Error('access invalid')}
+    const user = await User.findById(decodedToken.id)
+    if(!user) {throw Error('access invalid')}
+    response.json(user)
+}
 exports.getInstances = async(request, response) => {
     const userInstances = await UserInstances.find({})
     response.json(userInstances)
@@ -33,14 +39,13 @@ exports.register = [
     ,async (request, response) => {
     const errors = validationResult(request)
     if(!errors.isEmpty()){ throw (errors) }
-    const { firstName, lastName, contactNumber, email, password} = request.body;
+    const { firstName, lastName, email, password} = request.body;
     const passwordHash = await bcrypt.hash(password, 10);
     const newUser = new User({
         firstName,
         lastName,
         passwordHash,
         role: 'user',
-        contactNumber,
         email
     });
     const savedUser = await newUser.save();
@@ -91,5 +96,16 @@ exports.getQR = async(request, response) => {
     const sendQr = await qr.toDataURL(stringify);
     response.json(sendQr)
 }
-
+// Try the verification
+exports.verifyCode = async(request, response) => {
+    const {token, body} = request;
+    const decodedToken = jwt.verify(token, config.SECRET)
+    const user = await User.findById(body.id);
+    if(decodedToken.id !== user.id){ throw Error('access invalid')}
+    const compareCode = await bcrypt.compare(body.code, config.verificationCode)
+    if(!compareCode)
+        response.status(400).end()
+    const userUpdate = await User.findByIdAndUpdate(body.id, {$set: {contactNumber: config.contactNumber, phone_verified: true}})
+    response.status(200).end()
+}
 // Forgot Password

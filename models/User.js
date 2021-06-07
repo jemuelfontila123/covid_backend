@@ -14,7 +14,7 @@ const userSchema = new Schema({
         type: String,
         min:12,
         max:12,
-        unique: true
+        // unique: true
     },
     email: {
         type:String,
@@ -33,15 +33,15 @@ const userSchema = new Schema({
             ref: 'Establishment'
         }
     ],
-    verified: {
+    phone_verified: {
         type: Boolean,
-        default: false
+        default:false
     },
     img: {
         type:String,
-        default : '/uploads/default.jpg'
+        default : 'uploads/default.jpg'
     },
-    status: ['good','mild','severe']
+    status: ['good','mild','severe','infected','vaccinated']
 })
 userSchema.plugin(uniqueValidator)
 userSchema.set('toJSON', {

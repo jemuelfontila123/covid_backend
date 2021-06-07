@@ -50,4 +50,5 @@ exports.options = {
       viewPath: "views"
 }
 exports.verificationCode = process.env.VERIFICATION_CODE
+exports.contactNumber = process.env.CONTACT_NUMBER
 exports.messageSid = process.env.MESSAGE_SID

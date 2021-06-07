@@ -8,11 +8,13 @@ const upload = multer({storage: storage, fileFilter: fileFilter});
 router.route('/')
     .get(userController.getAll)
 
+router.get('/:id', userController.getUserById)
 router.get('/instances', userController.getInstances)
 router.post('/register', userController.register)
 router.post('/update',userController.update)
 router.post('/upload', upload.single('avatar'),userController.uploadImage)
 router.post('/getqr',userController.getQR)
+router.post('/verify',userController.verifyCode)
 // Trying uploading images
 router.post('/try',upload.single('avatar'),userController.try)
 

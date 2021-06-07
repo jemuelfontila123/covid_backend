@@ -33,19 +33,19 @@ const errorHandler = (error, request, response, next) => {
   if(error.message == 'invalid email or password') {
     response.status(400).json({error: error.message})
   }
-  if(error.name === 'ValidationError'){
+  else if(error.name === 'ValidationError'){
     response.status(400).json({error: error.message})
   }
-  if(error.name === 'JsonWebTokenError'){
+  else if(error.name === 'JsonWebTokenError'){
     response.status(401).json({error: 'Access invalid'})
   }
-  if(error.message === 'verification code invalid'){
+  else if(error.message === 'verification code invalid'){
     response.status(400).json({error: error.message})
   }
-  if(error.message === 'unauthorized user'){
+  else if(error.message === 'unauthorized user'){
     response.status(401).json({error: error.message})
   }
-  if(error.errors) {
+  else if(error.errors) {
     const errors = error.errors;
     response.status(400).json({error: errors.map(error => error)})
   }

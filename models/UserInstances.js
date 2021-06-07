@@ -5,14 +5,14 @@ const uniqueValidator = require('mongoose-unique-validator')
 const userInstancesSchema = new Schema({
     firstName: String,
     lastName: String,
+    email: {
+        type:String,
+        max: 254,
+    },
     contactNumber: {
         type: String,
         min:12,
         max:12,
-    },
-    email: {
-        type:String,
-        max: 254,
     },
     timeStamp : {
         type: Date,
