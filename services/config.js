@@ -17,6 +17,7 @@ exports.fileFilter = (req, file, cb) => {
     }
     else cb(null,false);
 }
+
 exports.transporter = nodemailer.createTransport({
     host : process.env.GMAIL_SERVICE_HOST,
     port: process.env.GMAIL_SERVICE_PORT,
@@ -26,6 +27,7 @@ exports.transporter = nodemailer.createTransport({
         pass: process.env.GMAIL_USER_PASSWORD
     }
 })
+
 exports.mail = {
     from: 'jamofontila@gmail.com',
     to: 'jyfontila2018@plm.edu.ph',

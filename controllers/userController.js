@@ -11,9 +11,6 @@ const qr = require('qrcode');
 const multer = require('multer')
 
 
-exports.try = async(request, response) => {
-   console.log(request.file)
-}
 exports.getAll = async(request, response) => {
     const users = await User.find({})
     response.json(users);
@@ -106,6 +103,26 @@ exports.verifyCode = async(request, response) => {
     if(!compareCode)
         response.status(400).end()
     const userUpdate = await User.findByIdAndUpdate(body.id, {$set: {contactNumber: config.contactNumber, phone_verified: true}})
+    response.status(200).end()
+}
+// Health check
+exports.healthCheck = async(request, response) => {
+    const {token, body} = request;
+    const decodedToken = jwt.verify(token, config.SECRET)
+    const user = await User.findById(body.id);
+    if(decodedToken.id !== user.id){ throw Error('access invalid')}
+    if(body.checked===0){
+        const userUpdate = await User.findByIdAndUpdate(body.id, {$set: {status: 'good'}})
+    }
+    if(body.checked===1){
+        const userUpdate = await User.findByIdAndUpdate(body.id, {$set: {status: 'mild'}})
+    }
+    if(body.checked===2){
+        const userUpdate = await User.findByIdAndUpdate(body.id, {$set: {status: 'mild'}})
+    }
+    if(body.checked>2){
+        const userUpdate = await User.findByIdAndUpdate(body.id, {$set: {status: 'severe'}})
+    }
     response.status(200).end()
 }
 // Forgot Password
