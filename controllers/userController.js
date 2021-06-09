@@ -55,16 +55,30 @@ exports.update = [
     body('*').trim().escape()
     //  Validation
     ,async (request, response) => {
-    const compareToken = jwt.verify(request.token, config.SECRET)
-    const {firstName, lastName, email} = request.body;
-    const user  = {
-        firstName,
-        lastName,
-        email,
-        verified: true
+    const {firstName, lastName, email, password} = request.body;
+    const user = await User.findOne({email})
+    const decodedToken = jwt.verify(request.token, config.SECRET)
+    if(decodedToken.id !== user.id){ throw Error('access invalid')}
+    const comparePassword = await bcrypt.compare(password, user.passwordHash)
+    if(!comparePassword) { throw Error('invalid password')}
+    let updatedUser;
+    if(firstName !==''){
+        if(lastName !='') {
+            updatedUser = {
+                firstName,
+                lastName
+            }
+        }
+        else 
+            updatedUser = {firstName}
     }
-    if(!compareToken) { throw Error('unauthorized user')}
-    const userUpdate = await User.findOneAndUpdate({email}, user)
+    else if(lastName!==''){
+        updatedUser = {lastName}
+    }
+    else{
+        response.status(200).end()
+    }
+    const userUpdate = await User.findOneAndUpdate({email}, updatedUser)
     response.status(200).end()
     }
 ]
@@ -73,7 +87,7 @@ exports.uploadImage = [
      body('*').trim().escape()
      //  Validation
      ,async (request, response) => {
-    const compareToken = jwt.verify(request.token, config.SECRET)
+    const decodedToken = jwt.verify(request.token, config.SECRET)
     const user = await User.findById(request.body.id);
     if(compareToken.id.toString() !== user._id.toString()){ throw Error('access invalid')}
     if(!compareToken) { throw Error('unauthorized user')}
