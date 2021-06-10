@@ -35,7 +35,7 @@ exports.addUser = async(request, response) => {
     const decodedToken =   jwt.verify(request.token, config.SECRET)
     request.credentials = { role: decodedToken.role }
     const establishment = await Establishment.findById(decodedToken.id)
-    const {firstName, lastName, email, contactNumber, userId} = request.body;
+    const {firstName, lastName, email, contactNumber, status, temperature, userId} = request.body;
     const user = await User.findById(userId)
     if(!user) { throw Error('user invalid')}
     const userInstance = new UserInstances({
@@ -43,11 +43,15 @@ exports.addUser = async(request, response) => {
         lastName,
         email,
         contactNumber,
-        main: userId
+        temperature,
+        main: userId,
+        status
     })
     const savedUserInstance = await userInstance.save()
     establishment.visitors = establishment.visitors.concat(savedUserInstance)
+    user.instances = user.instances.concat(savedUserInstance)
     await establishment.save();
+    await user.save();
     response.json(savedUserInstance)
 }
 exports.deleteUser = async (request, response) => {

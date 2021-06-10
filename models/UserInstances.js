@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose;
-const uniqueValidator = require('mongoose-unique-validator')
+const uniqueValidator = require('mongoose-unique-validator');
+const { NumberContext } = require('twilio/lib/rest/pricing/v1/voice/number');
 
 const userInstancesSchema = new Schema({
     firstName: String,
@@ -18,11 +19,14 @@ const userInstancesSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    temperature:{
+        type:Number
+    },
     main: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    status: ['good','mild','severe']
+    status: ['good','mild','severe','infected','vaccinated']
 })
 
 userInstancesSchema.set('toJSON', {

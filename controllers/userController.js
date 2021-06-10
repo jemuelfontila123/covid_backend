@@ -89,8 +89,8 @@ exports.uploadImage = [
      ,async (request, response) => {
     const decodedToken = jwt.verify(request.token, config.SECRET)
     const user = await User.findById(request.body.id);
-    if(compareToken.id.toString() !== user._id.toString()){ throw Error('access invalid')}
-    if(!compareToken) { throw Error('unauthorized user')}
+    if(decodedToken.id.toString() !== user._id.toString()){ throw Error('access invalid')}
+    if(!decodedToken) { throw Error('unauthorized user')}
      const userUpdate = await User.findByIdAndUpdate(request.body.id, {$set: {img: request.file.path}})
      response.json({path: request.file.path})
      }

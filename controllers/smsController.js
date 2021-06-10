@@ -9,7 +9,7 @@ exports.sendVerificationCode = async (request, response) => {
         const sendMessage = await client.messages
             .create({
                 body:`Your verification code is: ${generatedToken}`,
-                from: "+12055909323",
+                from: "+15758128924",
                 to: `+${request.body.contactNumber}`
             })
        const hashedToken = await bcrypt.hash(generatedToken, 10);
@@ -25,7 +25,7 @@ exports.sendMessage = async (request, response) => {
     const sendMessage = await client.messages
         .create({
             body: request.body.message,
-            from: "+12055909323",
+            from: "+15758128924",
             to: `+${request.body.contactNumber}`
         })
    const hashedToken = await bcrypt.hash(generatedToken, 10);
