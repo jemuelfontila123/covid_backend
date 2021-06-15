@@ -18,14 +18,14 @@ exports.getEstablishmentById = async(request, response) => {
     request.credentials = { role: decodedToken.role }
     if(decodedToken.id !== request.params.id) { throw Error('access invalid')}
     const establishment = await Establishment.findById(decodedToken.id)
-        .populate('visitors',{firstName:1, lastName:1, contactNumber:1, email:1, timeStamp:1})
-        .populate('employees', {firstName:1,lastName:1,  email:1, contactNumber:1})
+        .populate('visitors',{firstName:1, lastName:1, email:1, contactNumber:1, timeStamp:1, temperature:1, status:1})
+        .populate('employees', {firstName:1,lastName:1,  email:1, role:1, contactNumber:1})
     if(!establishment) {throw Error('access invalid')}
     response.json(establishment)
 }
 exports.getUsers = async(request, response) => {
     const decodedToken = jwt.verify(request.token, config.SECRET)
-    const establishment = await Establishment.findById(request.body.id).populate('visitors',{firstName:1, lastName:1, contactNumber:1, email:1, timeStamp:1})
+    const establishment = await Establishment.findById(request.body.id).populate('visitors',{firstName:1, lastName:1, timeStamp:1, temperature:1, status:1})
     if(decodedToken.id !== establishment.id){ throw Error('access invalid')}
     const visitors = establishment.visitors;
     response.status(200).end()
@@ -66,7 +66,7 @@ exports.deleteUser = async (request, response) => {
 exports.addEmployee = async(request, response) => {
     const decodedToken =   jwt.verify(request.token, config.SECRET)
     request.credentials = { role: decodedToken.role}
-    const { firstName, lastName , contactNumber, password, email} = request.body;
+    const { firstName, lastName , email, password} = request.body;
     const passwordHash = await bcrypt.hash(password, 10);
     const establishment = await Establishment.findById(decodedToken.id);
     const newEmployee = new Establishment({
@@ -74,7 +74,6 @@ exports.addEmployee = async(request, response) => {
         lastName,
         passwordHash,
         role: 'employee',
-        contactNumber,
         email,
         verified: true 
     });
@@ -100,18 +99,16 @@ exports.register = [
     body('email').normalizeEmail(),
     //Validation
     body('email').isEmail().withMessage('must be a valid email')
-
     ,async (request, response) => {
         const errors = validationResult(request)
         if(!errors.isEmpty()){ throw (errors) }
-        const { contactPerson, name, contactNumber, password, email} = request.body;
+        const { contactPerson, name, password, email} = request.body;
         const passwordHash = await bcrypt.hash(password, 10);
         const newAdmin = new Establishment({
             name,
             contactPerson,
             passwordHash,
             role: 'admin',
-            contactNumber,
             email,
             // default should be false
             verified: true 
