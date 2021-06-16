@@ -93,7 +93,23 @@ exports.deleteEmployee = async(request, response) => {
     await establishment.save();
     response.json(establishment)
 }
-
+exports.update = [
+    // Sanitization
+   body('*').trim().escape(),
+   body('email').normalizeEmail(),
+   //Validation
+   body('email').isEmail().withMessage('must be a valid email')
+   ,async (request, response) => {
+    const decodedToken =   jwt.verify(request.token, config.SECRET)
+    const {email, password} = request.body;
+    const establishment = await Establishment.findOne({email})
+    if(decodedToken.id !== establishment.id){ throw Error('access invalid')}
+    const comparePassword = await bcrypt.compare(password, establishment.passwordHash)
+    if(!comparePassword) { throw Error('invalid password')}
+    const establishmentUpdate = await Establishment.findOneAndUpdate({email}, request.body)
+    response.json(establishmentUpdate)
+   }
+]
 exports.register = [
     body('*').trim().escape(),
     body('email').normalizeEmail(),

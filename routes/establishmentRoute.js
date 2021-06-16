@@ -5,6 +5,7 @@ const middleware = require('../services/middleware')
 router.route('/')
     .get(establishmentController.getAll)
     .post(middleware.authenticate(['admin','employee']),establishmentController.addUser)
+    .put(establishmentController.update)
 router.route('/employee')
     .post(middleware.authenticate(['admin']), establishmentController.addEmployee)
 
