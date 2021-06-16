@@ -24,6 +24,10 @@ const establishmentSchema = new Schema({
         min:8
     },
     role: ['admin','employee'],
+    notifications:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Notification'
+    }],
     visitors: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:'UserInstances'
