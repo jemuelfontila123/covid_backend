@@ -13,7 +13,7 @@ const userInstancesSchema = new Schema({
     contactNumber: {
         type: String,
         min:12,
-        max:12,
+        max:12, 
     },
     timeStamp : {
         type: Date,

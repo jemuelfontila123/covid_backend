@@ -18,7 +18,8 @@ exports.getEstablishmentById = async(request, response) => {
     request.credentials = { role: decodedToken.role }
     if(decodedToken.id !== request.params.id) { throw Error('access invalid')}
     const establishment = await Establishment.findById(decodedToken.id)
-        .populate('visitors',{firstName:1, lastName:1, email:1, contactNumber:1, timeStamp:1, temperature:1, status:1})
+        // .populate('visitors',{firstName:1, lastName:1, email:1, contactNumber:1, timeStamp:1, temperature:1, status:1,})
+        .populate({path:'visitors', options:{sort:{ timeStamp: -1}}})
         .populate('employees', {firstName:1,lastName:1,  email:1, role:1, contactNumber:1})
     if(!establishment) {throw Error('access invalid')}
     response.json(establishment)
