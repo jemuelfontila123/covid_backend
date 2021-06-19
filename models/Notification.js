@@ -5,6 +5,9 @@ const notificationSchema = new Schema({
     message:{
         type: String
     },
+    email: {
+        type: String
+    },
     severity: ['success','warning'],
     establishment: {
         type: mongoose.Schema.Types.ObjectId,

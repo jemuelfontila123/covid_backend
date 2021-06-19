@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose;
 const uniqueValidator = require('mongoose-unique-validator')
-
+const Notification = require('./Notification').Notification;
 const establishmentSchema = new Schema({
     name: {
         type: String,
@@ -26,7 +26,7 @@ const establishmentSchema = new Schema({
     role: ['admin','employee'],
     notifications:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Notification'
+        ref: Notification
     }],
     visitors: [{
         type: mongoose.Schema.Types.ObjectId,
