@@ -62,6 +62,7 @@ exports.deleteUser = async (request, response) => {
     const establishment = await Establishment.findById(decodedToken.id)
     const userInstance = await UserInstances.findById(request.params.id)
     establishment.visitors = establishment.visitors.filter(visitor => visitor != userInstance.id)
+
     await establishment.save(); 
     response.json(establishment);
 }
@@ -93,6 +94,7 @@ exports.deleteEmployee = async(request, response) => {
     // if(!employee){throw Error('employee not existing')}
     establishment.employees = establishment.employees.filter(emp => emp != employee.id)
     await establishment.save();
+    await Establishment.findOneAndDelete(request.params.id);
     response.json(establishment)
 }
 exports.update = [

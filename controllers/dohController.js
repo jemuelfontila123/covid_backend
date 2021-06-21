@@ -1,6 +1,8 @@
 require('express-async-errors');
 const Establishment = require('../models/Establishment').Establishment
 const Notification = require('../models/Notification').Notification
+const jwt = require('jsonwebtoken')
+const config = require('../services/config')
 const alreadyNotified = (visitor, notifications) => {
     const found = notifications.find(notification => notification.email === visitor.email)
     return found;
@@ -14,13 +16,15 @@ const dateToday = `${yyyy}-${mm}-${dd}`
 
 
 exports.addNotification  = async (request, response) => {
-    const establishment = await Establishment.findById(request.params.id)
+    const decodedToken =   jwt.verify(request.token, config.SECRET)
+    request.credentials = { role: decodedToken.role}
+    const establishment = await Establishment.findById(decodedToken.id)
         .populate('visitors')
         .populate({path:'notifications'})
     const visitors = establishment.visitors;
     const notifications = establishment.notifications
     const visitorsUnique  = [... new Map(visitors.map(visitor => ['main', visitor])).values()]
-    if(visitors){
+    if(visitorsUnique){
         const index = Math.floor(Math.random() * visitorsUnique.length)
         const randomVisitor = visitorsUnique[index]
         if(!alreadyNotified(randomVisitor, notifications)){
