@@ -73,7 +73,7 @@ exports.deleteNotification = async(request, response) => {
     const notif = await Notification.findById(request.params.id)
     establishment.notifications = establishment.notifications.filter(notification => notification !== notif.id)
     await establishment.save();
-    await Notification.findOneAndDelete(request.params.id);
+    await Notification.findByIdAndDelete(request.params.id);
     response.json(establishment);
 }
 exports.addEmployee = async(request, response) => {
@@ -105,7 +105,7 @@ exports.deleteEmployee = async(request, response) => {
     // if(!employee){throw Error('employee not existing')}
     establishment.employees = establishment.employees.filter(emp => emp != employee.id)
     await establishment.save();
-    await Establishment.findOneAndDelete(employee.id);
+    await Establishment.findByIdAndDelete(employee.id);
     response.json(establishment)
 }
 exports.update = [
