@@ -79,12 +79,13 @@ exports.deleteNotification = async(request, response) => {
 exports.addEmployee = async(request, response) => {
     const decodedToken =   jwt.verify(request.token, config.SECRET)
     request.credentials = { role: decodedToken.role}
-    const { firstName, lastName , email, password} = request.body;
+    const { firstName, lastName , email, contactNumber, password} = request.body;
     const passwordHash = await bcrypt.hash(password, 10);
     const establishment = await Establishment.findById(decodedToken.id);
     const newEmployee = new Establishment({
         firstName,
         lastName,
+        contactNumber,
         passwordHash,
         role: 'employee',
         email,
@@ -104,7 +105,7 @@ exports.deleteEmployee = async(request, response) => {
     // if(!employee){throw Error('employee not existing')}
     establishment.employees = establishment.employees.filter(emp => emp != employee.id)
     await establishment.save();
-    await Establishment.findOneAndDelete(request.params.id);
+    await Establishment.findOneAndDelete(employee.id);
     response.json(establishment)
 }
 exports.update = [
