@@ -11,6 +11,7 @@ router.route('/employee')
 
 router.delete('/employee/:id',middleware.authenticate(['admin']), establishmentController.deleteEmployee)
 router.delete('/:id', middleware.authenticate(['admin']), establishmentController.deleteUser)
+router.delete('/notification/:id',middleware.authenticate(['admin']), establishmentController.deleteNotification)
 router.post('/register', establishmentController.register)
 router.get('/:id', middleware.authenticate(['admin']), establishmentController.getEstablishmentById)
 router.post('/getusers', middleware.authenticate(['admin']),establishmentController.getUsers)

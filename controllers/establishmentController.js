@@ -2,6 +2,7 @@ require('express-async-errors');
 const Establishment = require('../models/Establishment').Establishment
 const User = require('../models/User').User
 const UserInstances = require('../models/UserInstances').UserInstances
+const Notification = require('../models/Notification').Notification
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt')
 const config = require('../services/config')
@@ -62,8 +63,17 @@ exports.deleteUser = async (request, response) => {
     const establishment = await Establishment.findById(decodedToken.id)
     const userInstance = await UserInstances.findById(request.params.id)
     establishment.visitors = establishment.visitors.filter(visitor => visitor != userInstance.id)
-
     await establishment.save(); 
+    response.json(establishment);
+}
+exports.deleteNotification = async(request, response) => {
+    const decodedToken =   jwt.verify(request.token, config.SECRET)
+    request.credentials = {role: decodedToken.role}
+    const establishment = await Establishment.findById(decodedToken.id)
+    const notif = await Notification.findById(request.params.id)
+    establishment.notifications = establishment.notifications.filter(notification => notification !== notif.id)
+    await establishment.save();
+    await Notification.findOneAndDelete(request.params.id);
     response.json(establishment);
 }
 exports.addEmployee = async(request, response) => {

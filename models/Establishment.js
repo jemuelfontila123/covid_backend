@@ -46,10 +46,6 @@ const establishmentSchema = new Schema({
         max: 254,
         unique: true
     },
-    verified: {
-        type: Boolean,
-        default: false
-    }
 })
 
 establishmentSchema.plugin(uniqueValidator)
